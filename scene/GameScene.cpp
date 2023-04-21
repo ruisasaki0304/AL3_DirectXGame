@@ -1,10 +1,14 @@
 #include "GameScene.h"
+#include "ImGuiManager.h"
+#include "PrimitiveDrawer.h"
 #include "TextureManager.h"
 #include <cassert>
+#include "AxisIndicator.h"
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {}
+
 
 void GameScene::Initialize() {
 
@@ -30,6 +34,7 @@ void GameScene::Draw() {
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
+
 	// 深度バッファクリア
 	dxCommon_->ClearDepthBuffer();
 #pragma endregion
@@ -41,7 +46,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-
+	///
+	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
