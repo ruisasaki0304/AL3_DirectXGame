@@ -5,9 +5,15 @@
 #include <cassert>
 #include "AxisIndicator.h"
 
+#include "MathUtilityForText.h"
+
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() 
+{ 
+	delete modelStage_;
+	delete spriteBG_;
+}
 
 
 void GameScene::Initialize() {
@@ -15,9 +21,35 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	
+	//// スプライトの生成
+	textreHandleBG_ = TextureManager::Load("bg.jpg");
+	spriteBG_ = Sprite::Create(textreHandleBG_, {0, 0});
+
+	// 3Dモデルの生成
+	textureHandleStage_ = TextureManager::Load("stage.jpg");
+	modelStage_ = Model::Create();
+	// ワールドトランスフォームの初期化
+	worldTransformStage_.Initialize();
+	worldTransformStage_.translation_ = {0,-1.5f,0};
+	worldTransformStage_.scale_ = {4.5f, 1, 40};
+	worldTransformStage_.matWorld_ = MakeAffineMatrix(
+		worldTransformStage_.scale_,
+		worldTransformStage_.rotation_,
+		worldTransformStage_.translation_
+	);
+	worldTransformStage_.TransferMatrix();
+
+	// ビュープロジェクションの初期化
+	viewProjection_.translation_.y = 1;
+	viewProjection_.translation_.z = -6;
+	viewProjection_.Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+}
+
 
 void GameScene::Draw() {
 
@@ -31,6 +63,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	spriteBG_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -46,7 +79,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	///
+	modelStage_->Draw(worldTransformStage_, viewProjection_, textureHandleStage_);
 	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

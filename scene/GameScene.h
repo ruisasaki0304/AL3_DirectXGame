@@ -15,6 +15,20 @@
 /// </summary>
 class GameScene {
 
+	//BG
+	uint32_t textreHandleBG_ = 0;
+	Sprite* spriteBG_ = nullptr;
+
+	//ビュープロジェクション(共通)
+
+	ViewProjection viewProjection_;
+
+	//ステージ
+	uint32_t textureHandleStage_ = 0;
+	Model* modelStage_ = nullptr;
+	WorldTransform worldTransformStage_;
+
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
